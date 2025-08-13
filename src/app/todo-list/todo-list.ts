@@ -1,7 +1,9 @@
 import { Component, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+// Define the structure of a todo item
 interface TodoItem {
+  id: number;
   text: string;
   completed: boolean;
 }
@@ -12,15 +14,23 @@ interface TodoItem {
   templateUrl: './todo-list.html',
 })
 export class TodoList {
+  // Used to generate unique IDs for each todo
+  private nextId = 1;
+
+  // Signal holding the list of todos
   todos = signal<TodoItem[]>([
-    { text: 'Learn Angular basics', completed: false },
-    { text: 'Build a todo app', completed: false },
-    { text: 'Practice TypeScript', completed: false }
+    { id: this.nextId++, text: 'Learn Angular basics', completed: false },
+    { id: this.nextId++, text: 'Build a todo app', completed: false },
+    { id: this.nextId++, text: 'Practice TypeScript', completed: false }
   ]);
 
+  // Signal for the new todo input field
   newTodo = signal('');
+
+  // Signal to control whether completed todos are hidden
   hideCompleted = signal(false);
 
+  // Computed signal that returns the visible todos based on hideCompleted
   visibleTodos = computed(() => {
     const allTodos = this.todos();
     return this.hideCompleted()
@@ -28,24 +38,28 @@ export class TodoList {
       : allTodos;
   });
 
+  // Add a new todo to the list
   addTodo() {
     const todoText = this.newTodo().trim();
     if (todoText) {
-      this.todos.update(todos => [...todos, { text: todoText, completed: false }]);
+      this.todos.update(todos => [
+        ...todos,
+        { id: this.nextId++, text: todoText, completed: false }
+      ]);
       this.newTodo.set('');
     }
   }
 
-    deleteTodo(index: number) {
-    const todoToDelete = this.visibleTodos()[index];
-    this.todos.update(todos => todos.filter(todo => todo !== todoToDelete));
+  // Delete a todo from the list by its id
+  deleteTodo(todoToDelete: TodoItem) {
+    this.todos.update(todos => todos.filter(todo => todo.id !== todoToDelete.id));
   }
 
-    toggleTodo(index: number) {
-    const todoToToggle = this.visibleTodos()[index];
+  // Toggle the completed status of a todo by its id
+  toggleTodo(todoToToggle: TodoItem) {
     this.todos.update(todos =>
       todos.map(todo =>
-        todo === todoToToggle
+        todo.id === todoToToggle.id
           ? { ...todo, completed: !todo.completed }
           : todo
       )

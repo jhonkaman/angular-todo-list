@@ -19,15 +19,15 @@
 </div>
 
 <ul>
-  @for (todo of visibleTodos(); track $index) {
+  @for (todo of visibleTodos(); track todo.id) {
     <li>
         <input
           type="checkbox"
           [checked]="todo.completed"
-          (change)="toggleTodo($index)"
+          (change)="toggleTodo(todo)"
         >
       {{ todo.text }}
-      <button (click)="deleteTodo($index)">Delete</button>
+      <button (click)="deleteTodo(todo)">Delete</button>
     </li>
   }
 </ul>
