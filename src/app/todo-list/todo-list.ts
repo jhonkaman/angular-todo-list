@@ -19,9 +19,9 @@ export class TodoList {
 
   // Signal holding the list of todos
   todos = signal<TodoItem[]>([
-    { id: this.nextId++, text: 'Learn Angular basics', completed: false },
-    { id: this.nextId++, text: 'Build a todo app', completed: false },
-    { id: this.nextId++, text: 'Practice TypeScript', completed: false }
+    { id: this.nextId++, text: 'Learn HTML', completed: true },
+    { id: this.nextId++, text: 'Learn JavaScript', completed: false },
+    { id: this.nextId++, text: 'Learn Angular', completed: false }
   ]);
 
   // Signal for the new todo input field

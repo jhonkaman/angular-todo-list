@@ -1,10 +1,13 @@
 <div>
+<h1>Angular Todo List</h1>
 <form (ngSubmit)="addTodo()" #taskForm="ngForm">
+  <label for="newTodoInput">New Todo: </label>
   <input
+    id="newTodoInput"
     [(ngModel)]="newTodo"
     name="newTodo"
   >
-  <button type="submit">Add Task</button>
+  <button type="submit">Add Todo</button>
 </form>
 
 <div>
@@ -27,7 +30,7 @@
           (change)="toggleTodo(todo)"
         >
       {{ todo.text }}
-      <button (click)="deleteTodo(todo)">Delete</button>
+      <button (click)="deleteTodo(todo)">X</button>
     </li>
   }
 </ul>
